@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
 import { 
   FaStar, 
   FaShoppingCart, 
@@ -243,7 +242,7 @@ const ActionButtons = styled.div`
   }
 `;
 
-const AddToCartButton = styled(motion.button)`
+const AddToCartButton = styled.button`
   background: #3498db;
   color: white;
   border: none;
@@ -256,10 +255,14 @@ const AddToCartButton = styled(motion.button)`
   align-items: center;
   gap: 0.5rem;
   flex: 1;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
   
   &:hover {
     background: #2980b9;
+  }
+  
+  &:active {
+    transform: scale(0.98);
   }
 `;
 
@@ -475,11 +478,7 @@ const ProductDetail = () => {
           </ProductOptions>
 
           <ActionButtons>
-            <AddToCartButton
-              onClick={handleAddToCart}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
+            <AddToCartButton onClick={handleAddToCart}>
               <FaShoppingCart />
               Add to Cart
             </AddToCartButton>

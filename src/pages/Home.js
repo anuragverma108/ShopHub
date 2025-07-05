@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
 import { FaArrowRight, FaStar, FaShoppingCart } from 'react-icons/fa';
 import { useProducts } from '../context/ProductContext';
 
@@ -55,7 +54,7 @@ const HeroSubtitle = styled.p`
   opacity: 0.9;
 `;
 
-const HeroButton = styled(motion.button)`
+const HeroButton = styled.button`
   background: white;
   color: #667eea;
   border: none;
@@ -67,10 +66,15 @@ const HeroButton = styled(motion.button)`
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  transition: all 0.3s ease;
   
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  &:active {
+    transform: scale(0.95);
   }
 `;
 
@@ -92,17 +96,21 @@ const CategoriesGrid = styled.div`
   margin-bottom: 4rem;
 `;
 
-const CategoryCard = styled(motion.div)`
+const CategoryCard = styled.div`
   background: white;
   border-radius: 15px;
   padding: 2rem;
   text-align: center;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
   
   &:hover {
-    transform: translateY(-5px);
+    transform: translateY(-5px) scale(1.05);
+  }
+  
+  &:active {
+    transform: scale(0.95);
   }
 `;
 
@@ -128,15 +136,19 @@ const FeaturedProductsGrid = styled.div`
   gap: 2rem;
 `;
 
-const ProductCard = styled(motion.div)`
+const ProductCard = styled.div`
   background: white;
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
   
   &:hover {
-    transform: translateY(-5px);
+    transform: translateY(-10px);
+  }
+  
+  &:active {
+    transform: scale(0.95);
   }
 `;
 
@@ -262,10 +274,7 @@ const Home = () => {
             Shop with confidence and enjoy premium quality.
           </HeroSubtitle>
           <Link to="/products">
-            <HeroButton
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
+            <HeroButton>
               Shop Now <FaArrowRight />
             </HeroButton>
           </Link>
@@ -277,10 +286,7 @@ const Home = () => {
         <CategoriesGrid>
           {categories.map((category, index) => (
             <Link key={index} to={category.link} style={{ textDecoration: 'none' }}>
-              <CategoryCard
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
+              <CategoryCard>
                 <CategoryIcon>{category.icon}</CategoryIcon>
                 <CategoryTitle>{category.name}</CategoryTitle>
                 <CategoryDescription>{category.description}</CategoryDescription>
@@ -294,11 +300,7 @@ const Home = () => {
         <SectionTitle>Featured Products</SectionTitle>
         <FeaturedProductsGrid>
           {featuredProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              whileHover={{ y: -10 }}
-              whileTap={{ scale: 0.95 }}
-            >
+            <ProductCard key={product.id}>
               <ProductImage src={product.image} alt={product.name} />
               <ProductInfo>
                 <ProductTitle>{product.name}</ProductTitle>

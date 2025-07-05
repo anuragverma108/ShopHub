@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
 import { 
   FaTrash, 
   FaMinus, 
@@ -259,7 +258,7 @@ const TotalRow = styled(SummaryRow)`
   margin-top: 1rem;
 `;
 
-const CheckoutButton = styled(motion.button)`
+const CheckoutButton = styled.button`
   background: #27ae60;
   color: white;
   border: none;
@@ -274,10 +273,14 @@ const CheckoutButton = styled(motion.button)`
   gap: 0.5rem;
   width: 100%;
   margin-top: 1.5rem;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
   
   &:hover {
     background: #229954;
+  }
+  
+  &:active {
+    transform: scale(0.98);
   }
 `;
 
@@ -299,9 +302,7 @@ const Cart = () => {
   const { 
     cartItems, 
     removeFromCart, 
-    updateQuantity, 
-    getCartTotal, 
-    clearCart 
+    updateQuantity
   } = useCart();
 
   const handleQuantityChange = (item, change) => {
@@ -431,10 +432,7 @@ const Cart = () => {
           </TotalRow>
           
           <Link to="/checkout" style={{ textDecoration: 'none' }}>
-            <CheckoutButton
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
+            <CheckoutButton>
               <FaCreditCard />
               Proceed to Checkout
             </CheckoutButton>

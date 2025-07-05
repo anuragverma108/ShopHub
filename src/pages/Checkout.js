@@ -1,17 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
 import { 
   FaCreditCard, 
   FaLock, 
   FaArrowLeft,
   FaCheck,
-  FaUser,
-  FaEnvelope,
-  FaPhone,
-  FaMapMarkerAlt,
-  FaShieldAlt
+  FaUser
 } from 'react-icons/fa';
 import { useCart } from '../context/CartContext';
 
@@ -241,7 +236,7 @@ const TotalRow = styled(SummaryRow)`
   margin-top: 1rem;
 `;
 
-const PlaceOrderButton = styled(motion.button)`
+const PlaceOrderButton = styled.button`
   background: #27ae60;
   color: white;
   border: none;
@@ -256,7 +251,7 @@ const PlaceOrderButton = styled(motion.button)`
   gap: 0.5rem;
   width: 100%;
   margin-top: 1.5rem;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
   
   &:hover {
     background: #229954;
@@ -265,6 +260,10 @@ const PlaceOrderButton = styled(motion.button)`
   &:disabled {
     background: #bdc3c7;
     cursor: not-allowed;
+  }
+  
+  &:active:not(:disabled) {
+    transform: scale(0.98);
   }
 `;
 
@@ -280,7 +279,7 @@ const SecurityNote = styled.div`
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const { cartItems, getCartTotal, clearCart } = useCart();
+  const { cartItems, clearCart } = useCart();
   
   const [formData, setFormData] = useState({
     firstName: '',
@@ -596,8 +595,6 @@ const Checkout = () => {
           <PlaceOrderButton
             onClick={handlePlaceOrder}
             disabled={!isFormValid() || isProcessing}
-            whileHover={{ scale: isFormValid() && !isProcessing ? 1.02 : 1 }}
-            whileTap={{ scale: isFormValid() && !isProcessing ? 0.98 : 1 }}
           >
             {isProcessing ? (
               <>

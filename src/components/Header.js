@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
 import { 
   FaShoppingCart, 
   FaSearch, 
@@ -115,7 +114,7 @@ const IconContainer = styled.div`
   gap: 1rem;
 `;
 
-const IconButton = styled(motion.button)`
+const IconButton = styled.button`
   background: none;
   border: none;
   color: white;
@@ -123,9 +122,15 @@ const IconButton = styled(motion.button)`
   cursor: pointer;
   position: relative;
   padding: 0.5rem;
+  transition: all 0.3s ease;
   
   &:hover {
     color: #f0f0f0;
+    transform: scale(1.1);
+  }
+  
+  &:active {
+    transform: scale(0.9);
   }
 `;
 
@@ -243,28 +248,18 @@ const Header = () => {
         </NavContainer>
         
         <IconContainer>
-          <IconButton
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          >
+          <IconButton>
             <FaHeart />
           </IconButton>
           
-          <IconButton
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={toggleCart}
-          >
+          <IconButton onClick={toggleCart}>
             <FaShoppingCart />
             {getCartItemCount() > 0 && (
               <CartBadge>{getCartItemCount()}</CartBadge>
             )}
           </IconButton>
           
-          <IconButton
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          >
+          <IconButton>
             <FaUser />
           </IconButton>
         </IconContainer>

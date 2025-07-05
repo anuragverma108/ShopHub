@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
 import { 
   FaSearch, 
   FaFilter, 
@@ -144,16 +143,20 @@ const ProductsGrid = styled.div`
   gap: 2rem;
 `;
 
-const ProductCard = styled(motion.div)`
+const ProductCard = styled.div`
   background: white;
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
   display: ${props => props.viewMode === 'list' ? 'flex' : 'block'};
   
   &:hover {
     transform: translateY(-5px);
+  }
+  
+  &:active {
+    transform: scale(0.95);
   }
 `;
 
@@ -425,8 +428,6 @@ const Products = () => {
             <ProductCard
               key={product.id}
               viewMode={viewMode}
-              whileHover={{ y: -10 }}
-              whileTap={{ scale: 0.95 }}
             >
               <ProductImage 
                 src={product.image} 
