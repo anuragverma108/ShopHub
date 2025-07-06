@@ -12,6 +12,7 @@ import {
 } from 'react-icons/fa';
 import { useProducts } from '../context/ProductContext';
 import { useCart } from '../context/CartContext';
+import { useWishlist } from '../context/WishlistContext';
 
 const ProductDetailContainer = styled.div`
   max-width: 1200px;
@@ -351,6 +352,7 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const { getProductById } = useProducts();
   const { addToCart } = useCart();
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
@@ -372,6 +374,16 @@ const ProductDetail = () => {
   const handleAddToCart = () => {
     addToCart(product, quantity, selectedColor, selectedSize);
     alert('Product added to cart!');
+  };
+
+  const handleWishlistToggle = () => {
+    if (isInWishlist(product.id)) {
+      removeFromWishlist(product.id);
+      alert('Product removed from wishlist!');
+    } else {
+      addToWishlist(product);
+      alert('Product added to wishlist!');
+    }
   };
 
   const handleQuantityChange = (change) => {
@@ -482,9 +494,9 @@ const ProductDetail = () => {
               <FaShoppingCart />
               Add to Cart
             </AddToCartButton>
-            <WishlistButton>
+            <WishlistButton onClick={handleWishlistToggle}>
               <FaHeart />
-              Wishlist
+              {isInWishlist(product.id) ? 'Remove from Wishlist' : 'Add to Wishlist'}
             </WishlistButton>
             <ShareButton>
               <FaShare />

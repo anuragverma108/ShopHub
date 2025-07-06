@@ -8,8 +8,15 @@ import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Profile from './pages/Profile';
+import Wishlist from './pages/Wishlist';
 import { CartProvider } from './context/CartContext';
 import { ProductProvider } from './context/ProductContext';
+import { AuthProvider } from './context/AuthContext';
+import { WishlistProvider } from './context/WishlistContext';
+import { ReviewProvider } from './context/ReviewContext';
 import './App.css';
 
 const AppContainer = styled.div`
@@ -25,25 +32,35 @@ const MainContent = styled.main`
 
 function App() {
   return (
-    <ProductProvider>
-      <CartProvider>
-        <Router>
-          <AppContainer>
-            <Header />
-            <MainContent>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/products" element={<Products />} />
-                <Route path="/product/:id" element={<ProductDetail />} />
-                <Route path="/cart" element={<Cart />} />
-                <Route path="/checkout" element={<Checkout />} />
-              </Routes>
-            </MainContent>
-            <Footer />
-          </AppContainer>
-        </Router>
-      </CartProvider>
-    </ProductProvider>
+    <AuthProvider>
+      <ProductProvider>
+        <CartProvider>
+          <WishlistProvider>
+            <ReviewProvider>
+              <Router>
+                <AppContainer>
+                  <Header />
+                  <MainContent>
+                    <Routes>
+                      <Route path="/" element={<Home />} />
+                      <Route path="/products" element={<Products />} />
+                      <Route path="/product/:id" element={<ProductDetail />} />
+                      <Route path="/cart" element={<Cart />} />
+                      <Route path="/checkout" element={<Checkout />} />
+                      <Route path="/login" element={<Login />} />
+                      <Route path="/register" element={<Register />} />
+                      <Route path="/profile" element={<Profile />} />
+                      <Route path="/wishlist" element={<Wishlist />} />
+                    </Routes>
+                  </MainContent>
+                  <Footer />
+                </AppContainer>
+              </Router>
+            </ReviewProvider>
+          </WishlistProvider>
+        </CartProvider>
+      </ProductProvider>
+    </AuthProvider>
   );
 }
 

@@ -12,6 +12,7 @@ import {
 } from 'react-icons/fa';
 import { useProducts } from '../context/ProductContext';
 import { useCart } from '../context/CartContext';
+import { useWishlist } from '../context/WishlistContext';
 
 const ProductsContainer = styled.div`
   max-width: 1200px;
@@ -309,11 +310,20 @@ const Products = () => {
     getCategories
   } = useProducts();
   const { addToCart } = useCart();
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
 
   const categories = getCategories();
 
   const handleAddToCart = (product) => {
     addToCart(product, 1);
+  };
+
+  const handleWishlistToggle = (product) => {
+    if (isInWishlist(product.id)) {
+      removeFromWishlist(product.id);
+    } else {
+      addToWishlist(product);
+    }
   };
 
   if (loading) {
@@ -438,7 +448,10 @@ const Products = () => {
                 <div>
                   <ProductHeader>
                     <ProductTitle>{product.name}</ProductTitle>
-                    <WishlistButton>
+                    <WishlistButton 
+                      onClick={() => handleWishlistToggle(product)}
+                      style={{ color: isInWishlist(product.id) ? '#e74c3c' : '#ccc' }}
+                    >
                       <FaHeart />
                     </WishlistButton>
                   </ProductHeader>

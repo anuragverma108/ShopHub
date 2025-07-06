@@ -7,10 +7,13 @@ import {
   FaUser, 
   FaHeart, 
   FaBars,
-  FaTimes 
+  FaTimes,
+  FaSignOutAlt
 } from 'react-icons/fa';
 import { useCart } from '../context/CartContext';
 import { useProducts } from '../context/ProductContext';
+import { useAuth } from '../context/AuthContext';
+import { useWishlist } from '../context/WishlistContext';
 
 const HeaderContainer = styled.header`
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -202,6 +205,8 @@ const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { getCartItemCount, toggleCart } = useCart();
   const { searchTerm, setSearchTerm } = useProducts();
+  const { user, logout } = useAuth();
+  const { getWishlistCount } = useWishlist();
   const navigate = useNavigate();
 
   const handleSearch = (e) => {
@@ -243,13 +248,25 @@ const Header = () => {
         <NavContainer>
           <NavLink to="/">Home</NavLink>
           <NavLink to="/products">Products</NavLink>
-          <NavLink to="/about">About</NavLink>
-          <NavLink to="/contact">Contact</NavLink>
+          {user ? (
+            <>
+              <NavLink to="/wishlist">Wishlist</NavLink>
+              <NavLink to="/profile">Profile</NavLink>
+            </>
+          ) : (
+            <>
+              <NavLink to="/login">Login</NavLink>
+              <NavLink to="/register">Register</NavLink>
+            </>
+          )}
         </NavContainer>
         
         <IconContainer>
-          <IconButton>
+          <IconButton as={Link} to="/wishlist">
             <FaHeart />
+            {getWishlistCount() > 0 && (
+              <CartBadge>{getWishlistCount()}</CartBadge>
+            )}
           </IconButton>
           
           <IconButton onClick={toggleCart}>
@@ -259,9 +276,15 @@ const Header = () => {
             )}
           </IconButton>
           
-          <IconButton>
-            <FaUser />
-          </IconButton>
+          {user ? (
+            <IconButton as={Link} to="/profile">
+              <FaUser />
+            </IconButton>
+          ) : (
+            <IconButton as={Link} to="/login">
+              <FaUser />
+            </IconButton>
+          )}
         </IconContainer>
         
         <MobileMenuButton onClick={toggleMobileMenu}>
@@ -290,12 +313,29 @@ const Header = () => {
         <MobileNavLink to="/products" onClick={closeMobileMenu}>
           Products
         </MobileNavLink>
-        <MobileNavLink to="/about" onClick={closeMobileMenu}>
-          About
-        </MobileNavLink>
-        <MobileNavLink to="/contact" onClick={closeMobileMenu}>
-          Contact
-        </MobileNavLink>
+        {user ? (
+          <>
+            <MobileNavLink to="/wishlist" onClick={closeMobileMenu}>
+              Wishlist
+            </MobileNavLink>
+            <MobileNavLink to="/profile" onClick={closeMobileMenu}>
+              Profile
+            </MobileNavLink>
+            <MobileNavLink to="/" onClick={() => { logout(); closeMobileMenu(); }}>
+              <FaSignOutAlt style={{ marginRight: '8px' }} />
+              Logout
+            </MobileNavLink>
+          </>
+        ) : (
+          <>
+            <MobileNavLink to="/login" onClick={closeMobileMenu}>
+              Login
+            </MobileNavLink>
+            <MobileNavLink to="/register" onClick={closeMobileMenu}>
+              Register
+            </MobileNavLink>
+          </>
+        )}
       </MobileMenu>
     </HeaderContainer>
   );
